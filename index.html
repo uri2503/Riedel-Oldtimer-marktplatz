@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Riedel classics – Ersatzteile Marktplatz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;600;700&family=Libre+Baskerville:ital@1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:#1a1a1a; --surface:#242424; --surface2:#2e2e2e; --surface3:#383838;
+      --border:#3c3c3c; --red:#cc0000; --red2:#e50000;
+      --silver:#c8c8c8; --silver2:#e8e8e8; --white:#f5f5f5;
+      --muted:#888; --green:#4a8a5a; --r:4px;
+    }
+    body { background:var(--bg); color:var(--white); font-family:'Raleway',sans-serif; min-height:100vh; }
+
+    /* ── HEADER ── */
+    .header { background:var(--surface); border-bottom:3px solid var(--red); padding:0 2rem;
+      display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;
+      position:sticky; top:0; z-index:100; }
+    .logo-wrap { display:flex; align-items:flex-end; gap:0; padding:.85rem 0; }
+    .logo-r { font-family:'Raleway',sans-serif; font-weight:200; font-size:2rem; color:var(--silver2); letter-spacing:.04em; line-height:1; }
+    .logo-sep { width:1px; height:1.6rem; background:var(--silver); margin:0 .45rem .1rem; opacity:.5; }
+    .logo-c { font-family:'Raleway',sans-serif; font-weight:300; font-size:.95rem; color:var(--silver); letter-spacing:.18em; text-transform:lowercase; padding-bottom:.1rem; }
+    .nav-tabs { display:flex; gap:.15rem; flex-wrap:wrap; }
+    .nav-tab { background:none; border:none; color:var(--muted); font-family:'Raleway',sans-serif; font-weight:600;
+      font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; padding:.42rem .9rem;
+      cursor:pointer; border-radius:var(--r); border-bottom:2px solid transparent; transition:all .2s; }
+    .nav-tab:hover  { color:var(--silver2); background:var(--surface2); }
+    .nav-tab.active { color:var(--white); background:var(--surface2); border-bottom-color:var(--red); }
+
+    /* ── HERO ── */
+    .hero { background:linear-gradient(160deg,#1e1e1e 0%,#161616 60%,#1a1010 100%);
+      border-bottom:1px solid var(--border); padding:2.5rem 2rem 2rem;
+      display:flex; align-items:flex-end; justify-content:space-between; gap:2rem; flex-wrap:wrap; }
+    .hero-tagline { font-family:'Libre Baskerville',serif; font-style:italic; font-size:1.6rem; color:var(--silver2); line-height:1.25; }
+    .hero-tagline em { color:var(--red); font-style:normal; }
+    .hero-sub { font-weight:300; font-size:.76rem; letter-spacing:.12em; color:var(--muted); margin-top:.4rem; text-transform:uppercase; }
+    .hero-slogan { font-family:'Libre Baskerville',serif; font-style:italic; font-size:.86rem; color:var(--silver); margin-top:.8rem; opacity:.7; }
+    .hero-stats { display:flex; gap:2rem; }
+    .stat { text-align:center; }
+    .stat-num { font-weight:700; font-size:1.9rem; color:var(--silver2); line-height:1; }
+    .stat-label { font-size:.6rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-top:.2rem; }
+    .pay-row { display:flex; gap:.4rem; flex-wrap:wrap; margin-top:.8rem; }
+    .pay-badge { font-size:.66rem; padding:.26rem .6rem; border-radius:2px; font-weight:600; letter-spacing:.07em; }
+    .pay-pp { background:#003087; color:#fff; }
+    .pay-kl { background:#FFB3C7; color:#1a1a1a; }
+    .pay-bk { background:var(--surface2); color:var(--silver); border:1px solid var(--border); }
+
+    /* ── LAYOUT ── */
+    .main { display:flex; min-height:calc(100vh - 155px); }
+    .sidebar { width:195px; min-width:195px; background:var(--surface); border-right:1px solid var(--border); padding:1.4rem .9rem; }
+    .sidebar h3 { font-size:.6rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:.65rem; padding-bottom:.38rem; border-bottom:1px solid var(--border); }
+    .cat-btn { display:block; width:100%; background:none; border:none; color:var(--silver);
+      font-family:'Raleway',sans-serif; font-weight:400; font-size:.79rem; letter-spacing:.05em; text-align:left;
+      padding:.38rem .65rem; cursor:pointer; border-radius:var(--r); transition:all .15s; border-left:2px solid transparent; }
+    .cat-btn:hover  { color:var(--white); background:var(--surface2); border-left-color:var(--red); }
+    .cat-btn.active { color:var(--white); background:var(--surface2); border-left-color:var(--red); font-weight:600; }
+    .content { flex:1; padding:1.5rem; }
+
+    /* ── SEARCH ── */
+    .search-row { display:flex; gap:.7rem; margin-bottom:1.3rem; flex-wrap:wrap; }
+    .search-input { flex:1; min-width:180px; background:var(--surface); border:1px solid var(--border); color:var(--white);
+      font-family:'Raleway',sans-serif; font-size:.84rem; font-weight:300; padding:.54rem .9rem;
+      border-radius:var(--r); outline:none; transition:border .2s; }
+    .search-input:focus { border-color:var(--red); }
+    .search-input::placeholder { color:var(--muted); }
+    .filter-sel { background:var(--surface); border:1px solid var(--border); color:var(--white);
+      font-family:'Raleway',sans-serif; font-size:.8rem; padding:.54rem .7rem;
+      border-radius:var(--r); outline:none; cursor:pointer; }
+    .filter-sel:focus { border-color:var(--red); }
+    .filter-sel option { background:var(--surface2); }
+
+    /* ── BUTTONS ── */
+    .btn { background:var(--red); color:#fff; border:none; font-family:'Raleway',sans-serif; font-weight:600;
+      font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; padding:.54rem 1.1rem;
+      border-radius:var(--r); cursor:pointer; transition:all .2s; }
+    .btn:hover    { background:var(--red2); }
+    .btn:disabled { opacity:.35; cursor:not-allowed; }
+    .btn.sec { background:var(--surface2); color:var(--silver); border:1px solid var(--border); }
+    .btn.sec:hover { border-color:var(--silver); color:var(--white); }
+    .btn.grn { background:var(--green); color:#fff; }
+    .btn.grn:hover { background:#5aa06a; }
+    .btn.sml { font-size:.65rem; padding:.38rem .7rem; }
+    .btn.danger { background:#7a1a1a; color:#fff; border:1px solid var(--red); }
+    .btn.danger:hover { background:var(--red); }
+
+    /* ── GRID ── */
+    .parts-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(268px,1fr)); gap:1px; background:var(--border); border:1px solid var(--border); }
+    .card { background:var(--surface); cursor:pointer; transition:background .2s; }
+    .card:hover { background:var(--surface2); }
+    .card-imgs { position:relative; height:160px; overflow:hidden; background:var(--surface2); display:flex; align-items:center; justify-content:center; }
+    .card-imgs img { width:100%; height:100%; object-fit:cover; display:block; }
+    .card-imgs .no-img { font-size:2.8rem; opacity:.3; }
+    .img-count { position:absolute; bottom:6px; right:8px; background:rgba(0,0,0,.65);
+      color:var(--silver); font-size:.62rem; padding:.15rem .4rem; border-radius:2px; }
+    .card-head { background:var(--surface2); padding:.85rem 1rem; display:flex; align-items:center; gap:.8rem; border-bottom:1px solid var(--border); }
+    .card-emoji { font-size:1.6rem; flex-shrink:0; }
+    .card-title { font-weight:600; font-size:.88rem; letter-spacing:.02em; line-height:1.25; }
+    .card-car   { font-size:.68rem; color:var(--muted); margin-top:.12rem; font-weight:300; }
+    .card-body  { padding:.8rem 1rem; }
+    .card-desc  { font-size:.74rem; color:var(--muted); line-height:1.55; margin-bottom:.7rem; font-weight:300; }
+    .card-meta  { display:flex; justify-content:space-between; align-items:center; }
+    .price { font-weight:700; font-size:1.2rem; color:var(--silver2); }
+    .badge { font-size:.58rem; letter-spacing:.09em; text-transform:uppercase; padding:.15rem .4rem; border-radius:2px; border:1px solid; }
+    .b-neu { color:var(--green); border-color:var(--green); }
+    .b-gb  { color:var(--muted); border-color:var(--muted); }
+    .b-oh  { color:var(--silver); border-color:var(--silver); }
+    .card-foot { padding:.58rem 1rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+    .seller { font-size:.67rem; color:var(--muted); font-weight:300; }
+    .seller strong { color:var(--silver); font-weight:600; }
+    .ctag { font-size:.58rem; padding:.12rem .36rem; border-radius:2px; border:1px solid; letter-spacing:.06em; }
+    .ctag-comm { color:var(--silver); border-color:var(--silver); }
+    .ctag-own  { color:var(--red); border-color:var(--red); }
+    .red-line { height:2px; background:var(--red); }
+
+    /* ── MODAL BASE ── */
+    .overlay { position:fixed; inset:0; background:rgba(0,0,0,.82); z-index:200; display:none; align-items:center; justify-content:center; padding:1rem; }
+    .overlay.open { display:flex; }
+    .modal { background:var(--surface); border:1px solid var(--border); border-top:3px solid var(--red);
+      border-radius:var(--r); max-width:680px; width:100%; max-height:92vh; overflow-y:auto; padding:2rem; }
+    .modal.wide { max-width:860px; }
+    .modal h2 { font-weight:700; font-size:1.25rem; color:var(--silver2); margin-bottom:1.3rem; letter-spacing:.04em; }
+    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:.85rem; }
+    .fg { display:flex; flex-direction:column; gap:.3rem; }
+    .fg.full { grid-column:1/-1; }
+    .fg.third { grid-column:span 1; }
+    .fg label { font-size:.62rem; letter-spacing:.13em; text-transform:uppercase; color:var(--muted); font-weight:600; }
+    .fg input,.fg select,.fg textarea {
+      background:var(--surface2); border:1px solid var(--border); color:var(--white);
+      font-family:'Raleway',sans-serif; font-size:.85rem; font-weight:300;
+      padding:.48rem .72rem; border-radius:var(--r); outline:none; transition:border .2s; }
+    .fg input:focus,.fg select:focus,.fg textarea:focus { border-color:var(--red); }
+    .fg select option { background:var(--surface2); }
+    .fg textarea { resize:vertical; min-height:70px; }
+    .modal-actions { display:flex; gap:.6rem; justify-content:flex-end; margin-top:1.2rem; }
+    .prov-box { background:var(--surface2); border:1px solid var(--border); border-left:3px solid var(--red);
+      padding:.62rem .82rem; border-radius:var(--r); font-size:.76rem; color:var(--muted); margin-top:.8rem; }
+    .prov-box strong { color:var(--silver2); }
+    .divider { border:none; border-top:1px solid var(--border); margin:.85rem 0; }
+    .check-label { display:flex; align-items:center; gap:.45rem; cursor:pointer; color:var(--silver); font-size:.8rem; font-weight:300; }
+    .check-label input[type=checkbox] { accent-color:var(--red); width:14px; height:14px; }
+
+    /* ── IMAGE UPLOAD ── */
+    .img-upload-area { border:2px dashed var(--border); border-radius:var(--r); padding:1.2rem;
+      text-align:center; cursor:pointer; transition:border .2s; background:var(--surface2); }
+    .img-upload-area:hover,.img-upload-area.drag { border-color:var(--red); }
+    .img-upload-area p { font-size:.78rem; color:var(--muted); font-weight:300; margin-top:.3rem; }
+    .img-upload-area .icon { font-size:1.8rem; }
+    .img-preview-row { display:flex; gap:.5rem; flex-wrap:wrap; margin-top:.75rem; }
+    .img-thumb { position:relative; width:90px; height:70px; border-radius:var(--r); overflow:hidden; border:1px solid var(--border); }
+    .img-thumb img { width:100%; height:100%; object-fit:cover; }
+    .img-thumb .del-img { position:absolute; top:2px; right:2px; background:rgba(0,0,0,.7);
+      color:#fff; border:none; border-radius:50%; width:18px; height:18px; font-size:.65rem;
+      cursor:pointer; display:flex; align-items:center; justify-content:center; }
+    .img-hint { font-size:.7rem; color:var(--muted); margin-top:.4rem; font-weight:300; }
+
+    /* ── DETAIL MODAL ── */
+    .detail-carousel { position:relative; height:220px; background:var(--surface2); border-radius:var(--r); overflow:hidden; margin-bottom:1.2rem; }
+    .detail-carousel img { width:100%; height:100%; object-fit:cover; }
+    .detail-carousel .no-img { display:flex; align-items:center; justify-content:center; height:100%; font-size:4rem; opacity:.2; }
+    .carousel-btns { position:absolute; top:50%; transform:translateY(-50%); width:100%; display:flex; justify-content:space-between; padding:0 .5rem; }
+    .car-btn { background:rgba(0,0,0,.6); border:none; color:#fff; width:28px; height:28px;
+      border-radius:50%; cursor:pointer; font-size:.9rem; display:flex; align-items:center; justify-content:center; }
+    .car-btn:hover { background:var(--red); }
+    .carousel-dots { position:absolute; bottom:8px; left:50%; transform:translateX(-50%); display:flex; gap:5px; }
+    .dot { width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,.4); cursor:pointer; }
+    .dot.active { background:#fff; }
+    .detail-title { font-weight:700; font-size:1.45rem; color:var(--silver2); letter-spacing:.02em; line-height:1.2; }
+    .detail-sub   { font-size:.74rem; color:var(--muted); margin-top:.22rem; font-weight:300; letter-spacing:.06em; }
+    .detail-price { font-weight:700; font-size:1.9rem; color:var(--white); margin:.75rem 0 .28rem; }
+
+    /* ── ADMIN ── */
+    .admin-wrap { max-width:900px; }
+    .admin-wrap > h2 { font-weight:700; font-size:1.3rem; color:var(--silver2); margin-bottom:1.3rem; letter-spacing:.04em; }
+    .admin-card { background:var(--surface); border:1px solid var(--border); border-top:2px solid var(--red);
+      border-radius:var(--r); padding:1.3rem; margin-bottom:1rem; }
+    .admin-card h3 { font-size:.6rem; letter-spacing:.15em; text-transform:uppercase; color:var(--muted);
+      font-weight:600; margin-bottom:.8rem; padding-bottom:.4rem; border-bottom:1px solid var(--border); }
+    .prov-row { display:flex; align-items:center; gap:.65rem; flex-wrap:wrap; }
+    .prov-row input { width:68px; background:var(--surface2); border:1px solid var(--border); color:var(--white);
+      font-family:'Raleway',sans-serif; font-size:.88rem; padding:.46rem .68rem; border-radius:var(--r); outline:none; }
+    .prov-row input:focus { border-color:var(--red); }
+    .pct { color:var(--red); font-size:1rem; font-weight:700; }
+    .prov-note { font-size:.7rem; color:var(--muted); font-weight:300; }
+    table { width:100%; border-collapse:collapse; font-size:.79rem; }
+    th { font-size:.59rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted);
+      padding:.5rem .68rem; text-align:left; font-weight:600; border-bottom:1px solid var(--border); }
+    td { padding:.65rem .68rem; border-bottom:1px solid var(--border); font-weight:300; }
+    tr:hover td { background:var(--surface2); }
+    .tr-total td { color:var(--silver2); font-weight:700; font-size:.84rem; }
+    .empty { text-align:center; padding:3rem 2rem; color:var(--muted); }
+    .empty-i { font-size:2rem; margin-bottom:.7rem; }
+
+    /* ── STAMMDATEN TABS ── */
+    .sub-tabs { display:flex; gap:.2rem; margin-bottom:1.2rem; border-bottom:1px solid var(--border); padding-bottom:.6rem; }
+    .sub-tab { background:none; border:none; color:var(--muted); font-family:'Raleway',sans-serif; font-weight:600;
+      font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; padding:.35rem .8rem;
+      cursor:pointer; border-radius:var(--r); transition:all .2s; }
+    .sub-tab:hover  { color:var(--silver2); background:var(--surface2); }
+    .sub-tab.active { color:var(--white); background:var(--red); }
+
+    /* ── TAG LIST ── */
+    .tag-list { display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.6rem; }
+    .tag { display:flex; align-items:center; gap:.35rem; background:var(--surface2); border:1px solid var(--border);
+      padding:.28rem .6rem; border-radius:2px; font-size:.75rem; color:var(--silver); }
+    .tag button { background:none; border:none; color:var(--muted); cursor:pointer; font-size:.75rem; padding:0 .1rem; line-height:1; }
+    .tag button:hover { color:var(--red); }
+    .add-tag-row { display:flex; gap:.5rem; margin-top:.65rem; }
+    .add-tag-row input { flex:1; background:var(--surface2); border:1px solid var(--border); color:var(--white);
+      font-family:'Raleway',sans-serif; font-size:.82rem; padding:.44rem .7rem; border-radius:var(--r); outline:none; }
+    .add-tag-row input:focus { border-color:var(--red); }
+
+    /* ── PROVISION RULES ── */
+    .rule-grid { display:grid; grid-template-columns:1fr 1fr; gap:.7rem; margin-top:.5rem; }
+    .rule-card { background:var(--surface2); border:1px solid var(--border); border-radius:var(--r); padding:.9rem 1rem; }
+    .rule-card label { font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:.3rem; font-weight:600; }
+    .rule-card input,.rule-card select { width:100%; background:var(--surface); border:1px solid var(--border); color:var(--white);
+      font-family:'Raleway',sans-serif; font-size:.82rem; padding:.44rem .68rem; border-radius:var(--r); outline:none; }
+    .rule-card input:focus,.rule-card select:focus { border-color:var(--red); }
+    .rule-desc { font-size:.72rem; color:var(--muted); margin-top:.35rem; font-weight:300; line-height:1.4; }
+
+    /* ── PROVISION OVERRIDE TABLE ── */
+    .prov-override { width:100%; border-collapse:collapse; margin-top:.6rem; }
+    .prov-override th { font-size:.58rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); padding:.42rem .55rem; text-align:left; font-weight:600; border-bottom:1px solid var(--border); }
+    .prov-override td { padding:.55rem .55rem; border-bottom:1px solid var(--border); font-weight:300; font-size:.78rem; }
+    .prov-override td input { background:var(--surface); border:1px solid var(--border); color:var(--white);
+      font-family:'Raleway',sans-serif; font-size:.78rem; padding:.3rem .5rem; border-radius:2px; width:60px; outline:none; }
+    .prov-override td input:focus { border-color:var(--red); }
+
+    @media(max-width:700px) {
+      .header { padding:.7rem 1rem; } .logo-r { font-size:1.5rem; }
+      .hero { padding:1.3rem 1rem 1rem; } .hero-tagline { font-size:1.3rem; }
+      .main { flex-direction:column; }
+      .sidebar { width:100%; min-width:unset; border-right:none; border-bottom:1px solid var(--border); padding:.8rem; }
+      .form-grid { grid-template-columns:1fr; } .fg.full { grid-column:1; }
+      .rule-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo-wrap">
+    <span class="logo-r">Riedel</span>
+    <div class="logo-sep"></div>
+    <span class="logo-c">classics</span>
+  </div>
+  <nav class="nav-tabs">
+    <button class="nav-tab active" onclick="switchTab('shop')">Shop</button>
+    <button class="nav-tab" onclick="switchTab('sell')">Inserieren</button>
+    <button class="nav-tab" onclick="switchTab('admin')">Verwaltung</button>
+  </nav>
+</header>
+<div class="red-line"></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <div class="hero-tagline">Ersatzteile für<br><em>echte Klassiker</em></div>
+    <div class="hero-sub">Neu · Gebraucht · Kommissionsware · Sofortverkauf</div>
+    <div class="hero-slogan">...mit Liebe zum Detail</div>
+    <div class="pay-row">
+      <span class="pay-badge pay-pp">PayPal</span>
+      <span class="pay-badge pay-kl">Klarna</span>
+      <span class="pay-badge pay-bk">Überweisung</span>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num" id="stat-total">0</div><div class="stat-label">Inserate</div></div>
+    <div class="stat"><div class="stat-num" id="stat-comm">0</div><div class="stat-label">Kommission</div></div>
+    <div class="stat"><div class="stat-num" id="stat-prov">12%</div><div class="stat-label">Provision</div></div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <aside class="sidebar">
+    <h3>Kategorien</h3>
+    <div id="cat-sidebar"></div>
+    <div style="margin-top:1.2rem"></div>
+    <h3>Hersteller</h3>
+    <div id="make-sidebar"></div>
+  </aside>
+
+  <main class="content">
+
+    <!-- SHOP -->
+    <section id="tab-shop">
+      <div class="search-row">
+        <input class="search-input" id="search" placeholder="Suche nach Teilen oder Fahrzeug …" oninput="renderShop()" />
+        <select class="filter-sel" id="filter-cond" onchange="renderShop()">
+          <option value="">Alle Zustände</option>
+          <option>neu</option><option>generalüberholt</option><option>überholt</option><option>gebraucht</option>
+        </select>
+        <button class="btn" onclick="switchTab('sell')">+ Inserieren</button>
+      </div>
+      <div class="parts-grid" id="grid"></div>
+    </section>
+
+    <!-- SELL -->
+    <section id="tab-sell" style="display:none">
+      <div class="admin-wrap">
+        <h2>Teil inserieren</h2>
+        <div class="admin-card">
+          <div class="form-grid">
+            <div class="fg full">
+              <label>Bezeichnung *</label>
+              <input id="f-title" placeholder="z.B. Vergaser Solex 30 PICT" oninput="checkForm()" />
+            </div>
+            <div class="fg">
+              <label>Hersteller</label>
+              <select id="f-make" onchange="checkProvPreview()"></select>
+            </div>
+            <div class="fg">
+              <label>Fahrzeugmodell *</label>
+              <input id="f-car" placeholder="z.B. W108, Käfer 1200" oninput="checkForm()" />
+            </div>
+            <div class="fg">
+              <label>Baujahr(e)</label>
+              <input id="f-year" placeholder="z.B. 1965–1972" />
+            </div>
+            <div class="fg">
+              <label>Preis (€) *</label>
+              <input id="f-price" type="number" min="0" step="0.01" placeholder="0.00" oninput="checkForm();checkProvPreview()" />
+            </div>
+            <div class="fg">
+              <label>Zustand</label>
+              <select id="f-cond">
+                <option>gebraucht</option><option>neu</option>
+                <option>generalüberholt</option><option>überholt</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label>Kategorie</label>
+              <select id="f-cat" onchange="checkProvPreview()"></select>
+            </div>
+            <div class="fg">
+              <label>Einlieferer / Name</label>
+              <input id="f-seller" placeholder="Name des Verkäufers" />
+            </div>
+            <div class="fg" style="justify-content:flex-end;padding-top:.3rem">
+              <label class="check-label">
+                <input type="checkbox" id="f-own" onchange="toggleOwn()" />
+                Eigentümerware (keine Provision)
+              </label>
+            </div>
+            <div class="fg full">
+              <label>Beschreibung</label>
+              <textarea id="f-desc" placeholder="Zustand, Besonderheiten, Lieferumfang …"></textarea>
+            </div>
+            <!-- IMAGE UPLOAD -->
+            <div class="fg full">
+              <label>Fotos (max. 5 Stück · wird komprimiert)</label>
+              <div class="img-upload-area" id="upload-area" onclick="document.getElementById('img-input').click()"
+                ondragover="event.preventDefault();this.classList.add('drag')"
+                ondragleave="this.classList.remove('drag')"
+                ondrop="handleDrop(event)">
+                <div class="icon">📷</div>
+                <p>Klicken oder Bilder hierher ziehen</p>
+                <p style="font-size:.65rem;margin-top:.2rem">JPG, PNG · max. 5 MB pro Bild</p>
+              </div>
+              <input type="file" id="img-input" accept="image/*" multiple style="display:none" onchange="handleFiles(this.files)" />
+              <div class="img-preview-row" id="img-preview"></div>
+              <div class="img-hint" id="img-hint"></div>
+            </div>
+          </div>
+          <div class="prov-box" id="prov-preview" style="display:none"></div>
+          <div class="modal-actions">
+            <button class="btn sec" onclick="switchTab('shop')">Abbrechen</button>
+            <button class="btn" id="btn-save" disabled onclick="savePart()">✓ Inserat speichern</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADMIN -->
+    <section id="tab-admin" style="display:none">
+      <div class="admin-wrap">
+        <h2>Verwaltung</h2>
+        <div class="sub-tabs">
+          <button class="sub-tab active" onclick="switchAdmin('provision',this)">Provision</button>
+          <button class="sub-tab" onclick="switchAdmin('stammdaten',this)">Stammdaten</button>
+          <button class="sub-tab" onclick="switchAdmin('uebersicht',this)">Kommissions-Übersicht</button>
+          <button class="sub-tab" onclick="switchAdmin('zahlungen',this)">Zahlungsarten</button>
+        </div>
+
+        <!-- PROVISION -->
+        <div id="adm-provision">
+          <div class="admin-card">
+            <h3>Provisions-Spielregeln</h3>
+            <div class="rule-grid">
+              <div class="rule-card">
+                <label>Standard-Provision (%)</label>
+                <input type="number" id="prov-rate" min="0" max="100" value="12" oninput="updateProvRate()" />
+                <div class="rule-desc">Gilt für alle Kommissionsartikel, sofern keine abweichende Regel greift.</div>
+              </div>
+              <div class="rule-card">
+                <label>Mindest-Provision (€)</label>
+                <input type="number" id="prov-min" min="0" value="5" />
+                <div class="rule-desc">Wird erhoben, wenn der prozentuale Wert darunter liegt.</div>
+              </div>
+              <div class="rule-card">
+                <label>Maximale Provision (€)</label>
+                <input type="number" id="prov-max" min="0" value="500" />
+                <div class="rule-desc">Obergrenze — Verkäufer zahlt nie mehr als diesen Betrag.</div>
+              </div>
+              <div class="rule-card">
+                <label>Provision-Basis</label>
+                <select id="prov-basis">
+                  <option value="listing">Beim Einstellen (Listpreis)</option>
+                  <option value="sold">Beim Verkauf (Verkaufspreis)</option>
+                </select>
+                <div class="rule-desc">Wann und auf welchen Preis die Provision berechnet wird.</div>
+              </div>
+            </div>
+          </div>
+          <div class="admin-card">
+            <h3>Abweichende Provision nach Kategorie</h3>
+            <p style="font-size:.72rem;color:var(--muted);font-weight:300;margin-bottom:.6rem">
+              Leer lassen = Standard-Provision gilt. Überschreibt den Standard nur für diese Kategorie.
+            </p>
+            <table class="prov-override" id="cat-prov-table"></table>
+          </div>
+          <div class="admin-card">
+            <h3>Abweichende Provision nach Hersteller</h3>
+            <p style="font-size:.72rem;color:var(--muted);font-weight:300;margin-bottom:.6rem">
+              Nützlich für Premium-Marken (z.B. Porsche, Ferrari) mit höherer Provision.
+            </p>
+            <table class="prov-override" id="make-prov-table"></table>
+          </div>
+        </div>
+
+        <!-- STAMMDATEN -->
+        <div id="adm-stammdaten" style="display:none">
+          <div class="admin-card">
+            <h3>Baugruppen / Kategorien</h3>
+            <div class="tag-list" id="cat-tags"></div>
+            <div class="add-tag-row">
+              <input id="new-cat" placeholder="Neue Kategorie …" onkeydown="if(event.key==='Enter')addCat()" />
+              <button class="btn sml" onclick="addCat()">+ Hinzufügen</button>
+            </div>
+          </div>
+          <div class="admin-card">
+            <h3>Fahrzeughersteller</h3>
+            <div class="tag-list" id="make-tags"></div>
+            <div class="add-tag-row">
+              <input id="new-make" placeholder="Neuer Hersteller …" onkeydown="if(event.key==='Enter')addMake()" />
+              <button class="btn sml" onclick="addMake()">+ Hinzufügen</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ÜBERSICHT -->
+        <div id="adm-uebersicht" style="display:none">
+          <div class="admin-card">
+            <h3>Kommissions-Übersicht</h3>
+            <div id="comm-table"></div>
+          </div>
+        </div>
+
+        <!-- ZAHLUNGEN -->
+        <div id="adm-zahlungen" style="display:none">
+          <div class="admin-card">
+            <h3>Zahlungsarten (aktiv)</h3>
+            <div class="pay-row" style="margin-bottom:.8rem">
+              <span class="pay-badge pay-pp">✓ PayPal</span>
+              <span class="pay-badge pay-kl">✓ Klarna</span>
+              <span class="pay-badge pay-bk">✓ Banküberweisung</span>
+            </div>
+            <p style="font-size:.72rem;color:var(--muted);font-weight:300">
+              PayPal- &amp; Klarna-API-Keys werden über Backend-Konfiguration eingebunden.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="overlay" id="detail-overlay" onclick="closeDetailOuter(event)">
+  <div class="modal" id="detail-modal"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════
+let provision    = 12;
+let provMin      = 5;
+let provMax      = 500;
+let currentCat   = 'Alle';
+let currentMake  = 'Alle';
+let pendingImgs  = [];   // { dataUrl, name }
+
+let categories = ['Motor','Karosserie','Elektrik','Innenraum','Instrumente','Fahrwerk','Getriebe','Bremsen','Auspuff'];
+let makes      = ['Mercedes-Benz','Porsche','BMW','Volkswagen','Opel','Alfa Romeo','Ferrari','Fiat','Chevrolet'];
+
+// per-cat / per-make provision overrides  { name: number|null }
+let catProvOverride  = {};
+let makeProvOverride = {};
+
+let parts = [
+  { id:1, title:'Vergaser Solex 30 PICT', car:'VW Käfer 1200', make:'Volkswagen', year:'1965–1972', price:85,  cond:'gebraucht',       seller:'Eigentümer', comm:0,  emoji:'🔩', cat:'Motor',       desc:'Vollständig überholt, dicht, mit Düsensatz.', imgs:[] },
+  { id:2, title:'Chromstoßstange vorne',  car:'Mercedes W108',  make:'Mercedes-Benz', year:'1965–1972', price:320, cond:'neu',           seller:'Klaus M.',   comm:12, emoji:'✨', cat:'Karosserie',  desc:'Neuverchromt, keine Dellen, Halter dabei.',    imgs:[] },
+  { id:3, title:'Tachometer 0–160 km/h',  car:'Porsche 356',    make:'Porsche',   year:'1956–1965', price:450, cond:'gebraucht',         seller:'Helga F.',   comm:12, emoji:'⏱️', cat:'Instrumente', desc:'Originalzustand, läuft einwandfrei.',          imgs:[] },
+  { id:4, title:'Lichtmaschine 12V',       car:'BMW 1600-2',     make:'BMW',       year:'1966–1975', price:120, cond:'generalüberholt',  seller:'Eigentümer', comm:0,  emoji:'⚡', cat:'Elektrik',    desc:'Generalüberholt mit 12 Monaten Garantie.',    imgs:[] },
+  { id:5, title:'Lederlenkrad Nardi',      car:'Alfa Romeo Giulia', make:'Alfa Romeo', year:'1962–1978', price:290, cond:'gebraucht',    seller:'Marco V.',   comm:15, emoji:'🎡', cat:'Innenraum',   desc:'Cremefarbenes Leder, minimale Gebrauchsspuren.', imgs:[] },
+  { id:6, title:'Zylinderkopf komplett',   car:'Opel Kadett B',  make:'Opel',      year:'1965–1973', price:195, cond:'überholt',         seller:'Eigentümer', comm:0,  emoji:'🔧', cat:'Motor',       desc:'Neu geschliffen, Ventile erneuert.',           imgs:[] },
+];
+
+// ═══════════════════════════════════════════════════════
+// PROVISION LOGIC
+// ═══════════════════════════════════════════════════════
+function calcProvision(price, cat, make) {
+  // Priority: make-override > cat-override > default
+  let rate = provision;
+  if(cat  && catProvOverride[cat]  != null) rate = catProvOverride[cat];
+  if(make && makeProvOverride[make]!= null) rate = makeProvOverride[make];
+  let val = price * rate / 100;
+  val = Math.max(val, provMin);
+  val = Math.min(val, provMax);
+  return { rate, val };
+}
+
+// ═══════════════════════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════════════════════
+function switchTab(tab) {
+  ['shop','sell','admin'].forEach(t => document.getElementById('tab-'+t).style.display = t===tab?'':'none');
+  document.querySelectorAll('.nav-tab').forEach((b,i)=>b.classList.toggle('active',['shop','sell','admin'][i]===tab));
+  if(tab==='admin') { renderAdmin(); renderCatProvTable(); renderMakeProvTable(); }
+  if(tab==='shop')  renderShop();
+  if(tab==='sell')  { fillFormSelects(); pendingImgs=[]; renderImgPreview(); document.getElementById('prov-preview').style.display='none'; }
+}
+function switchAdmin(section, btn) {
+  ['provision','stammdaten','uebersicht','zahlungen'].forEach(s=>document.getElementById('adm-'+s).style.display=s===section?'':'none');
+  document.querySelectorAll('.sub-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(section==='uebersicht') renderCommTable();
+  if(section==='stammdaten') renderStammdaten();
+  if(section==='provision')  { renderCatProvTable(); renderMakeProvTable(); }
+}
+
+// ═══════════════════════════════════════════════════════
+// SIDEBAR
+// ═══════════════════════════════════════════════════════
+function renderSidebar() {
+  const cs = document.getElementById('cat-sidebar');
+  const ms = document.getElementById('make-sidebar');
+  cs.innerHTML = ['Alle',...categories].map(c=>
+    `<button class="cat-btn${currentCat===c?' active':''}" onclick="filterCat('${c}',this,'cat')">${c}</button>`).join('');
+  ms.innerHTML = ['Alle',...makes].map(m=>
+    `<button class="cat-btn${currentMake===m?' active':''}" onclick="filterCat('${m}',this,'make')">${m}</button>`).join('');
+}
+function filterCat(val, btn, type) {
+  if(type==='cat')  { currentCat=val;  document.querySelectorAll('#cat-sidebar .cat-btn').forEach(b=>b.classList.remove('active')); }
+  if(type==='make') { currentMake=val; document.querySelectorAll('#make-sidebar .cat-btn').forEach(b=>b.classList.remove('active')); }
+  btn.classList.add('active');
+  renderShop();
+}
+
+// ═══════════════════════════════════════════════════════
+// SHOP
+// ═══════════════════════════════════════════════════════
+function condClass(c) {
+  if(c==='neu') return 'b-neu';
+  if(c==='gebraucht') return 'b-gb';
+  return 'b-oh';
+}
+function renderShop() {
+  const q    = (document.getElementById('search').value||'').toLowerCase();
+  const fcond= document.getElementById('filter-cond').value;
+  const filtered = parts.filter(p => {
+    if(currentCat!=='Alle'  && p.cat!==currentCat)   return false;
+    if(currentMake!=='Alle' && p.make!==currentMake)  return false;
+    if(fcond && p.cond!==fcond) return false;
+    return p.title.toLowerCase().includes(q)||p.car.toLowerCase().includes(q)||(p.make||'').toLowerCase().includes(q);
+  });
+  const grid = document.getElementById('grid');
+  if(!filtered.length) {
+    grid.innerHTML=`<div class="empty" style="grid-column:1/-1;background:var(--surface)"><div class="empty-i">🔍</div>Keine Treffer.</div>`;
+    updateStats(); return;
+  }
+  grid.innerHTML = filtered.map(p => {
+    const imgHtml = p.imgs&&p.imgs.length
+      ? `<div class="card-imgs"><img src="${p.imgs[0]}" alt="" />${p.imgs.length>1?`<span class="img-count">1 / ${p.imgs.length}</span>`:''}</div>`
+      : `<div class="card-imgs"><div class="no-img">${p.emoji}</div></div>`;
+    return `<div class="card" onclick="openDetail(${p.id})">
+      ${imgHtml}
+      <div class="card-head">
+        <div class="card-emoji">${p.emoji}</div>
+        <div><div class="card-title">${p.title}</div>
+        <div class="card-car">${p.make?p.make+' ':''}${p.car} · ${p.year}</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">${p.desc}</div>
+        <div class="card-meta">
+          <div class="price">€ ${p.price.toFixed(2)}</div>
+          <span class="badge ${condClass(p.cond)}">${p.cond}</span>
+        </div>
+      </div>
+      <div class="card-foot">
+        <div class="seller">Verkäufer: <strong>${p.seller}</strong></div>
+        ${p.comm>0?`<span class="ctag ctag-comm">Prov. ${p.comm}%</span>`:`<span class="ctag ctag-own">Eigenware</span>`}
+      </div>
+    </div>`;
+  }).join('');
+  updateStats();
+}
+function updateStats() {
+  document.getElementById('stat-total').textContent = parts.length;
+  document.getElementById('stat-comm').textContent  = parts.filter(p=>p.comm>0).length;
+  document.getElementById('stat-prov').textContent  = provision+'%';
+}
+
+// ═══════════════════════════════════════════════════════
+// DETAIL MODAL
+// ═══════════════════════════════════════════════════════
+let carouselIdx = 0;
+let carouselPart = null;
+function openDetail(id) {
+  carouselPart = parts.find(x=>x.id===id); if(!carouselPart) return;
+  carouselIdx = 0;
+  renderDetailModal();
+  document.getElementById('detail-overlay').classList.add('open');
+}
+function renderDetailModal() {
+  const p = carouselPart;
+  const imgs = p.imgs||[];
+  let carouselHtml = '';
+  if(imgs.length) {
+    carouselHtml = `<div class="detail-carousel">
+      <img src="${imgs[carouselIdx]}" id="carousel-img" />
+      ${imgs.length>1?`
+      <div class="carousel-btns">
+        <button class="car-btn" onclick="carouselNav(-1)">&#8249;</button>
+        <button class="car-btn" onclick="carouselNav(1)">&#8250;</button>
+      </div>
+      <div class="carousel-dots">${imgs.map((_,i)=>`<div class="dot${i===carouselIdx?' active':''}" onclick="carouselGo(${i})"></div>`).join('')}</div>`:''}
+    </div>`;
+  } else {
+    carouselHtml = `<div class="detail-carousel"><div class="no-img">${p.emoji}</div></div>`;
+  }
+  const prov = p.comm>0 ? calcProvision(p.price,p.cat,p.make) : null;
+  document.getElementById('detail-modal').innerHTML = `
+    ${carouselHtml}
+    <div class="detail-title">${p.title}</div>
+    <div class="detail-sub">${p.make?p.make+' ':''}${p.car} · ${p.year} · ${p.cat}</div>
+    <div class="detail-price">€ ${p.price.toFixed(2)}</div>
+    <span class="badge ${condClass(p.cond)}">${p.cond}</span>
+    <hr class="divider">
+    <p style="font-size:.84rem;line-height:1.65;margin-bottom:1rem;font-weight:300;color:var(--silver)">${p.desc}</p>
+    <hr class="divider">
+    <div style="font-size:.76rem;color:var(--muted);margin-bottom:.8rem;font-weight:300">
+      Verkäufer: <strong style="color:var(--white);font-weight:600">${p.seller}</strong>
+    </div>
+    ${prov?`<div class="prov-box" style="margin-bottom:.9rem">
+      Provision: <strong>${prov.rate}%</strong> = <strong>€ ${prov.val.toFixed(2)}</strong> ·
+      Auszahlung: <strong>€ ${(p.price-prov.val).toFixed(2)}</strong>
+    </div>`:''}
+    <div style="font-size:.7rem;color:var(--muted);margin-bottom:.5rem;letter-spacing:.08em;text-transform:uppercase">Zahlung per</div>
+    <div class="pay-row" style="margin-bottom:1.3rem">
+      <span class="pay-badge pay-pp">PayPal</span>
+      <span class="pay-badge pay-kl">Klarna</span>
+      <span class="pay-badge pay-bk">Überweisung</span>
+    </div>
+    <div class="modal-actions">
+      <button class="btn sec" onclick="closeDetailBtn()">Schließen</button>
+      <button class="btn grn">Kaufanfrage senden</button>
+    </div>`;
+}
+function carouselNav(dir) {
+  const imgs = carouselPart.imgs||[];
+  carouselIdx = (carouselIdx+dir+imgs.length)%imgs.length;
+  renderDetailModal();
+}
+function carouselGo(i) { carouselIdx=i; renderDetailModal(); }
+function closeDetailOuter(e) { if(e.target===document.getElementById('detail-overlay')) document.getElementById('detail-overlay').classList.remove('open'); }
+function closeDetailBtn()    { document.getElementById('detail-overlay').classList.remove('open'); }
+
+// ═══════════════════════════════════════════════════════
+// IMAGE UPLOAD + COMPRESS
+// ═══════════════════════════════════════════════════════
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('upload-area').classList.remove('drag');
+  handleFiles(e.dataTransfer.files);
+}
+function handleFiles(files) {
+  const remaining = 5 - pendingImgs.length;
+  if(remaining<=0) return;
+  const toProcess = Array.from(files).slice(0, remaining);
+  toProcess.forEach(f => compressImage(f, dataUrl => {
+    pendingImgs.push({ dataUrl, name:f.name });
+    renderImgPreview();
+  }));
+}
+function compressImage(file, cb) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const MAX = 900;
+      let w=img.width, h=img.height;
+      if(w>h && w>MAX)      { h=Math.round(h*MAX/w); w=MAX; }
+      else if(h>w && h>MAX) { w=Math.round(w*MAX/h); h=MAX; }
+      else if(w>MAX)        { h=Math.round(h*MAX/w); w=MAX; }
+      canvas.width=w; canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      cb(canvas.toDataURL('image/jpeg', 0.72));
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function removeImg(idx) {
+  pendingImgs.splice(idx,1);
+  renderImgPreview();
+}
+function renderImgPreview() {
+  const row  = document.getElementById('img-preview');
+  const hint = document.getElementById('img-hint');
+  row.innerHTML = pendingImgs.map((im,i)=>
+    `<div class="img-thumb"><img src="${im.dataUrl}" /><button class="del-img" onclick="removeImg(${i});event.stopPropagation()">✕</button></div>`
+  ).join('');
+  hint.textContent = pendingImgs.length===0 ? '' : `${pendingImgs.length} / 5 Bild${pendingImgs.length>1?'er':''} – wird beim Speichern komprimiert auf max. 900 px`;
+}
+
+// ═══════════════════════════════════════════════════════
+// SELL FORM
+// ═══════════════════════════════════════════════════════
+function fillFormSelects() {
+  const cs = document.getElementById('f-cat');
+  const ms = document.getElementById('f-make');
+  cs.innerHTML = categories.map(c=>`<option>${c}</option>`).join('');
+  ms.innerHTML = ['(kein)',...makes].map(m=>`<option>${m}</option>`).join('');
+}
+function toggleOwn() {
+  const own = document.getElementById('f-own').checked;
+  document.getElementById('f-seller').disabled=own;
+  if(own) document.getElementById('f-seller').value='';
+  checkProvPreview();
+}
+function checkProvPreview() {
+  const price = parseFloat(document.getElementById('f-price').value)||0;
+  const own   = document.getElementById('f-own').checked;
+  const cat   = document.getElementById('f-cat').value;
+  const make  = document.getElementById('f-make').value;
+  const box   = document.getElementById('prov-preview');
+  if(own||price===0){ box.style.display='none'; return; }
+  const prov  = calcProvision(price,cat,make==='(kein)'?null:make);
+  box.style.display='block';
+  box.innerHTML=`Provision: <strong>${prov.rate}%</strong> → <strong>€ ${prov.val.toFixed(2)}</strong>
+    (Min. €${provMin} / Max. €${provMax}) · Auszahlung: <strong>€ ${(price-prov.val).toFixed(2)}</strong>`;
+}
+function checkForm() {
+  const ok = document.getElementById('f-title').value.trim() &&
+             document.getElementById('f-car').value.trim() &&
+             document.getElementById('f-price').value;
+  document.getElementById('btn-save').disabled=!ok;
+}
+function savePart() {
+  const own  = document.getElementById('f-own').checked;
+  const make = document.getElementById('f-make').value;
+  const cat  = document.getElementById('f-cat').value;
+  const price= parseFloat(document.getElementById('f-price').value)||0;
+  const prov = own ? 0 : calcProvision(price,cat,make==='(kein)'?null:make).rate;
+  parts.unshift({
+    id:Date.now(), title:document.getElementById('f-title').value.trim(),
+    car:document.getElementById('f-car').value.trim(), make:make==='(kein)'?'':make,
+    year:document.getElementById('f-year').value.trim()||'—', price, cond:document.getElementById('f-cond').value,
+    cat, seller:own?'Eigentümer':(document.getElementById('f-seller').value.trim()||'Unbekannt'),
+    comm:prov, emoji:'🔩', desc:document.getElementById('f-desc').value.trim()||'Keine Beschreibung.',
+    imgs: pendingImgs.map(i=>i.dataUrl),
+  });
+  ['f-title','f-car','f-year','f-price','f-seller','f-desc'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-own').checked=false;
+  document.getElementById('f-seller').disabled=false;
+  pendingImgs=[]; renderImgPreview();
+  document.getElementById('prov-preview').style.display='none';
+  document.getElementById('btn-save').disabled=true;
+  switchTab('shop');
+}
+
+// ═══════════════════════════════════════════════════════
+// ADMIN
+// ═══════════════════════════════════════════════════════
+function updateProvRate() {
+  provision = parseInt(document.getElementById('prov-rate').value)||0;
+  provMin   = parseFloat(document.getElementById('prov-min').value)||0;
+  provMax   = parseFloat(document.getElementById('prov-max').value)||9999;
+  updateStats();
+}
+function renderAdmin() { updateStats(); renderCatProvTable(); renderMakeProvTable(); }
+
+function renderCatProvTable() {
+  const t = document.getElementById('cat-prov-table');
+  if(!t) return;
+  t.innerHTML=`<thead><tr><th>Kategorie</th><th>Abweichende Provision (%)</th><th>Aktuell gültig</th></tr></thead><tbody>`+
+    categories.map(c=>`<tr>
+      <td>${c}</td>
+      <td><input type="number" min="0" max="100" placeholder="${provision}" value="${catProvOverride[c]!=null?catProvOverride[c]:''}"
+        onchange="catProvOverride['${c}']=this.value===''?null:parseFloat(this.value)" style="width:70px;background:var(--surface);border:1px solid var(--border);color:var(--white);font-family:'Raleway',sans-serif;font-size:.78rem;padding:.28rem .5rem;border-radius:2px;outline:none"/></td>
+      <td style="color:var(--silver2);font-weight:600">${catProvOverride[c]!=null?catProvOverride[c]+'%':provision+'% (Standard)'}</td>
+    </tr>`).join('')+'</tbody>';
+}
+function renderMakeProvTable() {
+  const t = document.getElementById('make-prov-table');
+  if(!t) return;
+  t.innerHTML=`<thead><tr><th>Hersteller</th><th>Abweichende Provision (%)</th><th>Aktuell gültig</th></tr></thead><tbody>`+
+    makes.map(m=>`<tr>
+      <td>${m}</td>
+      <td><input type="number" min="0" max="100" placeholder="${provision}" value="${makeProvOverride[m]!=null?makeProvOverride[m]:''}"
+        onchange="makeProvOverride['${m}']=this.value===''?null:parseFloat(this.value)" style="width:70px;background:var(--surface);border:1px solid var(--border);color:var(--white);font-family:'Raleway',sans-serif;font-size:.78rem;padding:.28rem .5rem;border-radius:2px;outline:none"/></td>
+      <td style="color:var(--silver2);font-weight:600">${makeProvOverride[m]!=null?makeProvOverride[m]+'%':provision+'% (Standard)'}</td>
+    </tr>`).join('')+'</tbody>';
+}
+
+// STAMMDATEN
+function renderStammdaten() {
+  renderCatTags(); renderMakeTags();
+}
+function renderCatTags() {
+  document.getElementById('cat-tags').innerHTML = categories.map((c,i)=>
+    `<div class="tag">${c}<button onclick="deleteCat(${i})">✕</button></div>`).join('');
+  renderSidebar();
+  fillFormSelectsSilent();
+}
+function renderMakeTags() {
+  document.getElementById('make-tags').innerHTML = makes.map((m,i)=>
+    `<div class="tag">${m}<button onclick="deleteMake(${i})">✕</button></div>`).join('');
+  renderSidebar();
+  fillFormSelectsSilent();
+}
+function addCat() {
+  const v=document.getElementById('new-cat').value.trim();
+  if(!v||categories.includes(v)) return;
+  categories.push(v); document.getElementById('new-cat').value='';
+  renderCatTags(); renderCatProvTable();
+}
+function deleteCat(i) {
+  categories.splice(i,1); renderCatTags(); renderCatProvTable();
+}
+function addMake() {
+  const v=document.getElementById('new-make').value.trim();
+  if(!v||makes.includes(v)) return;
+  makes.push(v); document.getElementById('new-make').value='';
+  renderMakeTags(); renderMakeProvTable();
+}
+function deleteMake(i) {
+  makes.splice(i,1); renderMakeTags(); renderMakeProvTable();
+}
+function fillFormSelectsSilent() {
+  const cs=document.getElementById('f-cat');
+  const ms=document.getElementById('f-make');
+  if(cs) cs.innerHTML=categories.map(c=>`<option>${c}</option>`).join('');
+  if(ms) ms.innerHTML=['(kein)',...makes].map(m=>`<option>${m}</option>`).join('');
+}
+
+// COMM TABLE
+function renderCommTable() {
+  const comms=parts.filter(p=>p.comm>0);
+  const total=comms.reduce((s,p)=>s+calcProvision(p.price,p.cat,p.make).val,0);
+  const el=document.getElementById('comm-table');
+  if(!comms.length){el.innerHTML='<p style="color:var(--muted);font-size:.8rem;font-weight:300">Keine Kommissionsartikel.</p>';return;}
+  el.innerHTML=`<table><thead><tr><th>Artikel</th><th>Hersteller</th><th>Verkäufer</th><th>Preis</th><th>Rate</th><th>Provision €</th></tr></thead><tbody>`+
+    comms.map(p=>{const pv=calcProvision(p.price,p.cat,p.make);return`<tr>
+      <td>${p.title}</td><td>${p.make||'—'}</td><td>${p.seller}</td>
+      <td>€ ${p.price.toFixed(2)}</td><td>${pv.rate}%</td>
+      <td style="color:var(--silver2);font-weight:600">€ ${pv.val.toFixed(2)}</td>
+    </tr>`}).join('')+
+    `<tr class="tr-total"><td colspan="5">Gesamt-Provision (potentiell)</td><td>€ ${total.toFixed(2)}</td></tr>
+    </tbody></table>`;
+}
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
+renderSidebar();
+renderShop();
+fillFormSelects();
+</script>
+</body>
+</html>
